@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Describing Figures</title>
+<style>
+:root{--bg:#0e1117;--card:#161b24;--card2:#1c2230;--text:#e7eaf0;--muted:#98a2b3;--line:#283042;--good:#4fd193;--bad:#ff7a7a;--c1:#6cb6ff;--c2:#7ee0a6;--c3:#f2c36b;--c4:#e48fd0;--c5:#ff9b7a;--ac:#6cb6ff;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+main{max-width:980px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left)) 90px max(16px,env(safe-area-inset-right))}
+p,li,blockquote,.desc{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+p{margin:.6em 0}
+h1{font-size:clamp(1.9rem,5vw,2.8rem);line-height:1.15;margin:.2em 0 .3em}
+h2{font-size:clamp(1.4rem,3.6vw,1.9rem);line-height:1.25;margin:0 0 .4em}
+h3{font-size:1.1rem;margin:1.4em 0 .4em;color:var(--ac)}
+.top{position:sticky;top:0;z-index:20;background:rgba(14,17,23,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+#nav{display:flex;gap:6px;overflow-x:auto;padding:10px max(12px,env(safe-area-inset-left));scrollbar-width:none;max-width:1100px;margin:0 auto}
+#nav::-webkit-scrollbar{display:none}
+#nav a{flex:none;color:var(--muted);text-decoration:none;font-size:.85rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+#nav a.on{color:#0e1117;background:var(--text);border-color:var(--text);font-weight:600}
+#bar{height:3px;width:0;background:var(--c1)}
+.hero{padding:44px 0 20px}
+.hero p{color:var(--muted);font-size:1.05rem}
+section{padding:42px 0 6px;border-top:1px solid var(--line)}
+.badge{display:inline-block;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ac);border:1px solid var(--ac);border-radius:999px;padding:2px 12px;margin-bottom:8px}
+.formula{border-left:4px solid var(--ac);background:var(--card);padding:12px 16px;border-radius:0 10px 10px 0;margin:14px 0;text-align:left}
+.formula small{display:block;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.72rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;padding:0;list-style:none}
+.chips li{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:2px 10px;font-size:.92rem;text-align:left}
+.tips{margin:6px 0;padding-left:1.2em}
+.example{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.example blockquote,.desc blockquote{margin:8px 0;border-left:3px solid var(--ac);padding-left:12px}
+.example .why{color:var(--muted);font-size:.93rem}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:860px){.grid{grid-template-columns:1fr 1fr}}
+figure.card{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.fig{width:100%}
+.fig figcaption,.cap{font-size:.86rem;color:var(--muted);margin-bottom:6px;text-align:left}
+.fig svg{width:100%;height:auto;display:block}
+.fig svg text{fill:var(--text);font-size:12px;font-family:inherit}
+.fig svg .ax{stroke:var(--line);stroke-width:1}
+.fig svg .mut{fill:var(--muted)}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+th{background:var(--card2)}
+td.n,th.n{text-align:center}
+.desc .tag{font-size:.75rem;color:var(--ac);text-transform:uppercase;letter-spacing:.06em}
+.desc p{margin:.2em 0}
+.quiz{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.qhead h3{margin:0}
+.score{color:var(--muted);font-size:.92rem}
+button.btn{background:var(--card2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font:inherit;font-size:.92rem;cursor:pointer}
+button.btn:hover{border-color:var(--ac)}
+button.primary{background:var(--c1);color:#0e1117;border-color:var(--c1);font-weight:600}
+.q{border-top:1px solid var(--line);padding:16px 0}
+.q:first-of-type{border-top:0}
+.qh{display:flex;gap:8px;align-items:center;font-size:.8rem;color:var(--muted)}
+.qn{font-weight:700;color:var(--text)}
+.qk{border:1px solid var(--line);border-radius:6px;padding:0 8px}
+.qt{margin:.3em 0 .6em;font-weight:600;text-align:left}
+.qfig{max-width:520px;margin:6px 0 10px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;min-height:48px;padding:10px 12px;background:var(--card2);color:var(--text);border:1px solid var(--line);border-radius:10px;font:inherit;font-size:.97rem;line-height:1.45;cursor:pointer}
+.opt b{flex:none;width:24px;height:24px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:.8rem}
+.opt:hover:not(.locked){border-color:var(--ac)}
+.opt.locked{cursor:default}
+.opt.correct,.opt.right,.opt.key{border-color:var(--good);background:rgba(79,209,147,.14)}
+.opt.wrong{border-color:var(--bad);background:rgba(255,122,122,.14)}
+.fb{margin-top:8px;font-size:.93rem;text-align:left;min-height:1px}
+.fb.ok{color:var(--good)}.fb.no{color:var(--bad)}
+.fb span{color:var(--muted)}
+.sumtable td:first-child{font-weight:700;white-space:nowrap}
+.model{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.model span{padding:1px 2px;border-bottom:2px solid var(--c)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--muted);margin-bottom:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;background:var(--c)}
+.fstat{position:sticky;bottom:10px;z-index:10;margin:14px 0;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;gap:10px;font-size:.92rem}
+.result{background:var(--card2);border:1px solid var(--c1);border-radius:14px;padding:18px;margin:16px 0;text-align:center}
+.result .big{font-size:2.2rem;font-weight:700}
+.result .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px}
+footer{color:var(--muted);font-size:.85rem;padding:30px 0;text-align:center}
+@media(max-width:560px){body{font-size:16px}.hero{padding-top:28px}.quiz{padding:12px}}
+</style>
+</head>
+<body>
+<header class="top"><nav id="nav"></nav><div id="bar"></div></header>
+<main id="app"></main>
+
+<script id="data">
+const FIGDATA={
+ ex:{rows:[["Children (6–12)",3],["Teenagers (13–19)",6],["Adults (20–59)",5],["Seniors (60+)",2]]},
+ f1:{rows:[["Car",40,20],["Bus",25,35],["Bike",15,30],["Walk",20,15]]},
+ f2:{rows:[["Apps",38],["Videos",27],["Books",20],["Classes",15]]},
+ f3:{rows:[["2020",20],["2021",45],["2022",60],["2023",68],["2024",75]]},
+ f4:{rows:[["Social media",45],["TV",25],["Websites",20],["Newspapers",10]]}
+};
+
+const STRATS=[
+{id:"s1",title:"Identify the Main Idea or Purpose",
+ what:"The first sentence tells the reader what the figure is about. It answers three questions: What is it? Who or where? When?",
+ formula:"The [table / bar chart / line graph / pie chart] + [shows / presents / compares / illustrates] + what + who or where + when.",
+ phrases:["shows","presents","illustrates","compares","gives information about"],
+ tips:["Do not write numbers yet.","Do not give your opinion.","Use the present simple: shows, compares."],
+ ex:"This table shows the average number of hours people in different age groups spend looking at screens each day in 2024.",
+ why:"It names the figure (table), the topic (hours of screen time), the groups (age groups) and the time (2024)."},
+{id:"s2",title:"Describe Overall Trends or Patterns",
+ what:"After the main idea, give the big picture. What is the highest? What is the lowest? Does it go up, go down, or stay the same? Do not use exact numbers here.",
+ formula:"In general, / Overall, + the most … while the least …  or  … increased / decreased / stayed stable.",
+ phrases:["In general,","Overall,","the most … while the least …","increased","decreased","stayed stable"],
+ tips:["Look at the whole figure, not one number.","Charts with time: say up, down or stable.","Charts without time: say highest and lowest."],
+ ex:"In general, teenagers spend the most time on screens, while seniors spend the least.",
+ why:"It gives the pattern (most and least) and uses no numbers."},
+{id:"s3",title:"Make Comparisons",
+ what:"Compare two or more things: which is higher or lower, more or less. Comparison words help the reader see the relationship.",
+ formula:"A + is / are + more / less / higher / lower + than + B   or   A is twice as … as B.",
+ phrases:["more … than","less … than","higher than","twice as … as","three times as … as","while","whereas","similar to","the same as"],
+ tips:["Check the numbers before you write twice or three times.","Use while / whereas to show a contrast.","Compare similar things: two years, two cities, two groups."],
+ ex:"Teenagers spend twice as much time on screens as children, and three times as much as seniors. Adults use screens slightly less than teenagers but more than children.",
+ why:"6 hours is twice 3 hours and three times 2 hours. (Be careful: “three times more than” can confuse readers, so “three times as much as” is safer.)"},
+{id:"s4",title:"Describe Specific Data",
+ what:"Use exact numbers or percentages to support your ideas. Choose only the important numbers. If the data set is huge, do not write every number.",
+ formula:"[Group] + [verb] + [number + unit].",
+ phrases:["accounts for","makes up","reached","averages","rose to","fell to","(45%)"],
+ tips:["Always write the unit: %, hours, people.","Small data set: give many numbers. Huge data set: give key numbers only.","Use numbers to support an idea, not just to make a list."],
+ ex:"Teenagers average 6 hours per day, adults 5 hours, children 3 hours, and seniors only 2 hours.",
+ why:"The data set is small (4 groups), so it is fine to give every number. Each number has its unit (hours)."},
+{id:"s5",title:"Write an Overview or Conclusion",
+ what:"End with one or two sentences. Say the main trend again in different words. Do not repeat all the numbers, and do not add new information.",
+ formula:"In summary, / To sum up, / Overall, + main trend.",
+ phrases:["In summary,","To sum up,","In conclusion,","Overall,"],
+ tips:["No new data.","No personal opinion.","Keep it short: one or two sentences. “Overall” can start a trend sentence or a conclusion; the conclusion goes last."],
+ ex:"Overall, screen time tends to decrease with age, showing that younger people spend much more time on digital devices than older people.",
+ why:"It repeats the main pattern in new words and uses no numbers."}
+];
+
+const DESC=[
+{f1:"The table compares how people travel to work in City A and City B. It gives the percentage of people who use each type of transport.",
+ f2:"The bar chart shows the favorite ways that 200 students use to study English, as percentages.",
+ f3:"The line graph shows the percentage of university students who used online learning apps from 2020 to 2024.",
+ f4:"The pie chart shows the main sources of news that people used in 2024, as percentages."},
+{f1:"Overall, cars are the most popular transport in City A, while buses are the most popular in City B.",
+ f2:"In general, apps are the most popular way to study English, and classes are the least popular.",
+ f3:"Overall, the percentage of students using apps increased every year, but the growth became slower.",
+ f4:"In general, people get their news mostly from social media, and newspapers are the least popular source."},
+{f1:"Cars are twice as popular in City A as in City B, whereas bikes are twice as popular in City B as in City A. Walking is fairly similar in both cities.",
+ f2:"Apps are more popular than videos, and videos are more popular than books. Apps are more than twice as popular as classes.",
+ f3:"The percentage in 2024 was almost four times as high as in 2020. The rise from 2020 to 2021 was bigger than any later rise.",
+ f4:"Social media is used by nearly twice as many people as TV. Websites are twice as popular as newspapers."},
+{f1:"In City A, 40% of people go by car, but only 20% do in City B. In City B, 35% take the bus and 30% ride a bike.",
+ f2:"Apps are the favorite of 38% of the students, followed by videos at 27%. Books are chosen by 20%, and classes by only 15%.",
+ f3:"The percentage was 20% in 2020 and rose sharply to 45% in 2021. It reached 75% in 2024.",
+ f4:"Social media accounts for 45% of news use, followed by TV at 25%. Websites make up 20%, and newspapers only 10%."},
+{f1:"In summary, cars are more common in City A, while buses and bikes are more common in City B.",
+ f2:"To sum up, digital ways of studying (apps and videos) are more popular than traditional ways (books and classes).",
+ f3:"In summary, online learning apps became much more popular among students over five years.",
+ f4:"Overall, most people get their news online, and printed newspapers are the least popular."}
+];
+
+/* t=type, q=question, c=correct text, w=3 wrong texts, p=position of correct (0-3), e=explanation, f=figure */
+const QUIZ=[
+[
+{t:"Theory",q:"What is the purpose of the first sentence in a figure description?",c:"To say what the figure shows overall",w:["To give your opinion about the results","To list every number in the figure","To predict what will happen next"],p:1,e:"The first sentence gives the main idea: what the figure shows. Numbers, opinions and predictions do not belong here."},
+{t:"Theory",q:"Which information should NOT be in the main idea sentence?",c:"Exact numbers for each category",w:["The time period in the figure","The group of people or the place","The topic that the figure is about"],p:3,e:"Exact numbers belong in the data sentences, not in the main idea sentence."},
+{t:"Practice",q:"Look at Figure 2. Which is the best main idea sentence?",f:"f2",c:"The bar chart shows students’ favorite ways to study English.",w:["Apps are the most popular way to study English, and 38% of the students choose to use them.","I think that studying with apps is much better than studying with books.","Studying English is very important for students who want a good future."],p:0,e:"It names the chart type, the topic and the group. The others give data, an opinion or a general idea."},
+{t:"Practice",q:"Which is the best main idea sentence for Figure 3?",f:"f3",c:"The line graph shows the percentage of students using online learning apps from 2020 to 2024.",w:["The line graph shows how many teachers used online learning apps in the year 2020 at school.","Online learning apps rose from 20% in 2020 to 75% in 2024, so they are really great for students.","The line graph is about technology and it is very interesting for everybody."],p:2,e:"It includes the chart type, the topic, the group and the time (2020 to 2024)."},
+{t:"Practice",q:"Complete the sentence: “The table ______ how people travel to work in City A and City B.”",f:"f1",c:"compares",w:["compare","comparing","to compare"],p:1,e:"“The table” is singular, so we use the present simple with -s: compares."}
+],
+[
+{t:"Theory",q:"What is an “overall trend”?",c:"The general pattern in the figure",w:["The reason why the numbers change","The title written above the figure","The smallest number in the figure"],p:0,e:"An overall trend is the general pattern: what is highest or lowest, or how things change."},
+{t:"Theory",q:"Which pair of words describes trends over time?",c:"rise and fall",w:["win and lose","ask and answer","open and close"],p:2,e:"Rise and fall describe numbers going up and down over time."},
+{t:"Practice",q:"Which sentence gives the best overall trend for Figure 4?",f:"f4",c:"In general, people get their news mostly from social media, and newspapers are the least popular.",w:["Social media accounts for 45% of news use, TV for 25%, websites for 20%, and newspapers for only 10% of the people.","The pie chart shows the main sources of news that people used in 2024.","Newspapers are bad because nobody reads them any more."],p:3,e:"It states the general pattern with no exact numbers. The other options list data, give the main idea, or give an opinion."},
+{t:"Practice",q:"Which sentence describes the trend in Figure 3 correctly?",f:"f3",c:"Overall, the use of online learning apps increased every year, but more slowly after 2021.",w:["Overall, the use of online learning apps fell after 2021 and then stayed at a low level.","Overall, the use of online learning apps stayed stable from 2020 to 2024 among students.","Overall, students stopped using online learning apps and went back to using books and classes."],p:1,e:"The numbers grew every year (20, 45, 60, 68, 75), but the rises became smaller after 2021."},
+{t:"Practice",q:"In Figure 1, which statement about the trend is TRUE?",f:"f1",c:"Buses are the most popular transport in City B.",w:["Cars are the most popular transport in City B.","Walking is the most popular transport in City A.","Bikes are the most popular transport in City A."],p:0,e:"Bus use is 35% in City B, the highest in that city. The other statements are false."}
+],
+[
+{t:"Theory",q:"Which words are used to compare two things?",c:"than / whereas",w:["because / so","first / finally","for example / also"],p:2,e:"Than and whereas compare. Because/so show reason, first/finally show order, for example/also add information."},
+{t:"Theory",q:"What does “twice as much as” mean?",c:"Double the amount",w:["Half the amount","The same amount","A little more than"],p:0,e:"Twice as much as means two times the amount."},
+{t:"Practice",q:"Which comparison about Figure 2 is correct?",f:"f2",c:"Videos are more popular than books.",w:["Books are more popular than videos.","Classes are more popular than apps.","Apps and videos are equally popular."],p:3,e:"Videos (27%) are higher than books (20%). The other statements are false."},
+{t:"Practice",q:"Which sentence compares City A and City B correctly?",f:"f1",c:"Cars are twice as popular in City A as in City B.",w:["Bikes are twice as popular in City A as in City B.","Buses are more popular in City A than in City B.","Walking is much more common in City B than in City A."],p:1,e:"Cars: 40% and 20%, so twice as popular in City A. Bikes are 15% and 30%, buses 25% and 35%, walking 20% and 15%."},
+{t:"Practice",q:"Complete the sentence: “Social media is used by ______ TV.”",f:"f4",c:"nearly twice as many people as",w:["half as many people as","a much smaller number of people than","exactly the same number of people as"],p:2,e:"45% is nearly twice 25% (1.8 times)."}
+],
+[
+{t:"Theory",q:"Why do we use exact numbers in a description?",c:"To support our ideas with data",w:["To make the paragraph much longer","To avoid describing any trends","To show how we feel about it"],p:1,e:"Numbers give evidence for the ideas in your description."},
+{t:"Theory",q:"When should you NOT list every number?",c:"When the data set is huge",w:["When there are only two groups","When the figure is a small table","When the numbers are percentages"],p:0,e:"With a huge data set, choose key numbers only. With a small data set, you can give more numbers."},
+{t:"Practice",q:"Which sentence uses correct data for Figure 3?",f:"f3",c:"The figure was 20% in 2020 and reached 75% in 2024.",w:["The figure was 75% in 2020 and finally reached 20% in 2024.","The figure was 20% in 2021 and then reached 75% in 2023.","The figure was 45% in 2020 and slowly reached 60% in 2024."],p:2,e:"The figure was 20% in 2020 and 75% in 2024. Always check the year and the number."},
+{t:"Practice",q:"Which sentence uses correct data for Figure 4?",f:"f4",c:"TV accounts for 25% of news use, and newspapers for only 10%.",w:["TV accounts for 45% of news use, and newspapers for only 10% of people.","TV accounts for 25% of news use, and newspapers for as much as 20%.","Social media accounts for 25% of news use, and TV for only 10%."],p:3,e:"TV is 25% and newspapers are 10%."},
+{t:"Practice",q:"Which numbers best support: “Apps are the most popular way to study English”?",f:"f2",c:"38% for apps and 15% for classes",w:["15% for apps and 38% for classes","27% for apps and 38% for videos","20% for books and 27% for videos together"],p:2,e:"Apps (38%) are higher than classes (15%), which supports the idea."}
+],
+[
+{t:"Theory",q:"What should a conclusion do?",c:"Summarize the main trend",w:["Repeat all the numbers again","Add a new opinion about it","Introduce some new data"],p:3,e:"A conclusion summarizes the main trend. It does not repeat all numbers or add new ideas."},
+{t:"Theory",q:"Which phrase can start a conclusion?",c:"In summary,",w:["For instance,","Firstly,","Besides that,"],p:1,e:"“In summary” shows the end of a text. For instance, firstly and besides that belong in the body."},
+{t:"Practice",q:"Which is the best conclusion for Figure 1?",f:"f1",c:"In summary, cars are more common in City A, while buses and bikes are more common in City B.",w:["In summary, 40% of people in City A drive, while 35% of people in City B take the bus and 30% ride bikes.","In summary, I think City B is better because it has more buses and bikes.","In summary, the table shows how people travel to work in two cities."],p:0,e:"It repeats the main trend with no numbers. The others give data, an opinion, or only the main idea."},
+{t:"Practice",q:"Which is the best conclusion for Figure 2?",f:"f2",c:"To sum up, digital ways of studying are more popular than traditional ways.",w:["To sum up, 38% of students like apps and 27% of students like watching videos.","To sum up, students should study with apps because they are more fun.","To sum up, the bar chart shows what students like to use for studying English."],p:2,e:"Apps and videos (digital) total 65%; books and classes (traditional) total 35%. A conclusion summarizes without opinion."},
+{t:"Practice",q:"Which sentence is NOT suitable for a conclusion on Figure 3?",f:"f3",c:"In 2021, the figure rose from 20% to 45% among university students.",w:["Overall, online learning apps became much more popular over five years.","In summary, more students used online apps as time passed.","To sum up, the use of online apps grew, but more slowly at the end."],p:3,e:"Detailed data (20% to 45%) belongs in the body, not in the conclusion."}
+]
+];
+
+const FINAL=[
+{t:"Theory",q:"What should the first sentence of a figure description tell the reader?",c:"What the figure is about",w:["The writer’s opinion about the results","All the numbers in the figure","The final conclusion of the paragraph"],p:2,e:"The first sentence gives the main idea: what the figure is about."},
+{t:"Practice",q:"Which is the best first sentence for the Example Table (screen time)?",f:"ex",c:"The table shows the average daily screen time of four age groups in 2024.",w:["Teenagers spend 6 hours a day on screens, which is the highest number of all the groups.","Screens are bad for children, so parents must control them.","In summary, young people use screens more than older people do."],p:0,e:"It names the figure, the topic, the groups and the year. The others give data, an opinion or a conclusion."},
+{t:"Practice",q:"Which sentence best introduces Figure 4?",f:"f4",c:"The pie chart shows where people got their news from in 2024.",w:["Most people read the news on social media because it is fast and easy.","Social media is the source for 45% of people, and newspapers for 10%.","In general, social media is the most popular source of news."],p:3,e:"It states the chart type, the topic and the year only."},
+{t:"Theory",q:"Which phrase is useful for describing a trend?",c:"In general / Overall",w:["As we can see in my notebook","By the way / Anyway","Thank you for reading"],p:1,e:"In general and Overall introduce the big picture."},
+{t:"Practice",q:"Which sentence describes the overall trend in Figure 3?",f:"f3",c:"Overall, the use of online learning apps rose steadily from 2020 to 2024.",w:["The use of apps was 20% in 2020 and 75% in 2024, which is a big change for students.","The line graph shows how many students used apps between 2020 and 2024.","I believe that apps will be even more popular in the future."],p:0,e:"It describes the direction (rose) without exact numbers. The others give data, the main idea, or a prediction."},
+{t:"Practice",q:"What is the trend (pattern) in Figure 2?",f:"f2",c:"Apps are the most popular way and classes are the least.",w:["Books are the most popular and apps are the least popular way.","All four ways are equally popular among students.","Classes are the most popular way and videos are the least."],p:3,e:"Apps are highest (38%) and classes are lowest (15%)."},
+{t:"Practice",q:"Which statement shows the general pattern in the Example Table?",f:"ex",c:"Teenagers use screens the most, and seniors use them the least.",w:["Seniors spend the most time on screens and teenagers spend the least.","Children spend more time on screens than adults and teenagers.","All age groups spend exactly the same time on screens."],p:2,e:"Teenagers have the highest number (6 hours) and seniors the lowest (2 hours)."},
+{t:"Theory",q:"Which word is used to show a contrast between two things?",c:"whereas",w:["because","therefore","for example"],p:1,e:"Whereas (and while) show a contrast. Because and therefore show reason or result."},
+{t:"Practice",q:"Which statement about Figure 1 is TRUE?",f:"f1",c:"Bike use in City B is twice as high as in City A.",w:["Bus use in City A is much higher than bus use in City B.","Car use is the same in both cities.","Walking is the most popular choice in City B."],p:0,e:"Bikes: 30% in City B and 15% in City A, so twice as high."},
+{t:"Practice",q:"Which comparison is correct for Figure 4?",f:"f4",c:"Websites are twice as popular as newspapers.",w:["Newspapers are slightly more popular than websites among people.","TV is a little less popular than websites in the survey.","Social media is half as popular as TV for news."],p:1,e:"Websites are 20% and newspapers are 10%, so websites are twice as popular."},
+{t:"Practice",q:"Which sentence compares different years in Figure 3?",f:"f3",c:"The use of apps in 2024 was almost four times as high as in 2020.",w:["The use of apps in 2024 was lower than in 2020, but it grew after that.","The use of apps in 2022 was higher than in 2024 for university students.","The use of apps in 2023 was exactly the same as in 2021 and 2022 together."],p:2,e:"75% is 3.75 times 20%, so almost four times as high."},
+{t:"Practice",q:"Which sentence is correct about the Example Table?",f:"ex",c:"Teenagers spend three times as many hours as seniors.",w:["Children spend more hours than adults on screens every day.","Adults spend twice as many hours as children on screens daily.","Seniors spend slightly more time than children on screens."],p:0,e:"Teenagers: 6 hours. Seniors: 2 hours. 6 is three times 2."},
+{t:"Theory",q:"What should you do when the data set is huge?",c:"Share only the key features",w:["Write every number in the table","Skip the figure and write nothing","Only give your opinion about the figure"],p:3,e:"With a huge data set, choose the key features and numbers only."},
+{t:"Practice",q:"Which sentence uses correct specific data for Figure 1?",f:"f1",c:"In City B, 35% of people take the bus and 30% ride a bike.",w:["In City B, 35% of people ride a bike and 30% of them take the bus.","In City A, 35% of people take the bus and 30% ride a bike.","In City B, 20% of people take the bus and 15% ride a bike, which is not much."],p:1,e:"City B: bus 35%, bike 30%."},
+{t:"Practice",q:"Which sentence is correct for Figure 2?",f:"f2",c:"Books are the choice of 20% of the students.",w:["Videos are the choice of 20% of the students and apps of 38%.","Apps are the choice of only 27% of all the students in the survey.","Classes are the choice of 38% of the students in this survey."],p:2,e:"Books: 20%. Videos are 27%, apps 38%, classes 15%."},
+{t:"Practice",q:"Which pair of numbers shows the highest and lowest values in Figure 4?",f:"f4",c:"45% (social media), 10% (newspapers)",w:["25% (TV) and 20% (websites) together","45% (TV) and 10% (websites) in total","10% (social media) and 45% (newspapers)"],p:0,e:"Social media is the highest (45%) and newspapers the lowest (10%)."},
+{t:"Practice",q:"Which sentence uses exact data from the Example Table correctly?",f:"ex",c:"Teenagers average 6 hours per day, while seniors average only 2 hours.",w:["Teenagers average 5 hours per day, while seniors average only 3 hours a day.","Children average 6 hours per day, while adults average only 2 hours a day.","Teenagers average 6 hours per day, while seniors average as many as 4 hours."],p:3,e:"Teenagers: 6 hours. Seniors: 2 hours."},
+{t:"Theory",q:"What is the best way to end a figure description?",c:"Summarize the main trend briefly",w:["Add many new numbers from another chart","Give a long personal story about it","Repeat every number from the figure again"],p:1,e:"End with a short summary of the main trend. No new data, no story, no list of numbers."},
+{t:"Practice",q:"Which is the best conclusion for Figure 4?",f:"f4",c:"Overall, most people get their news online, and newspapers are the least popular.",w:["Overall, 45% of people use social media, 25% watch TV, 20% visit websites, and 10% read newspapers.","Overall, I think people should read more newspapers every day.","Overall, the pie chart shows the main sources of news in 2024."],p:2,e:"Social media and websites are online sources (65% together). The conclusion summarizes without numbers or opinion."},
+{t:"Practice",q:"Which conclusion fits the Example Table?",f:"ex",c:"In summary, screen time tends to decrease as people get older.",w:["In summary, teenagers spend 6 hours and seniors spend 2 hours on screens.","In summary, screens are harmful, so everyone should use them less.","In summary, the table shows the screen time of four age groups."],p:0,e:"It restates the main pattern with no numbers or opinion."},
+{t:"Practice",q:"Which sentence is NOT a conclusion?",f:"f3",c:"The figure was 45% in 2021 and 60% in 2022.",w:["Overall, online learning apps became more popular over time.","In summary, the use of apps grew, but more slowly at the end.","To sum up, more students chose online apps year after year."],p:1,e:"A sentence with exact numbers is a data sentence, not a conclusion."},
+{t:"Practice",q:"“The line graph illustrates the percentage of students using apps from 2020 to 2024.” Which strategy is this?",f:"f3",c:"Identify the main idea",w:["Describe the specific data","Write a conclusion","Make comparisons"],p:0,e:"It says what the figure shows (chart, topic, group, time). There are no numbers or conclusions."},
+{t:"Practice",q:"“Cars are twice as popular in City A as in City B.” Which strategy is this?",f:"f1",c:"Make comparisons",w:["Write a conclusion","Identify the main idea","Describe the overall trend"],p:3,e:"“Twice as … as” compares two things."},
+{t:"Practice",q:"Which sentence is a specific data sentence?",f:"f2",c:"Apps are chosen by 38% of students.",w:["Overall, apps became popular over a long time.","The bar chart shows how students study English.","Apps are more popular than books and videos."],p:1,e:"It gives an exact number with its unit (%)."},
+{t:"Practice",q:"Figure 3 shows data from 2020 to 2024. Which sentence is correct?",f:"f3",c:"The percentage rose from 20% in 2020 to 75% in 2024.",w:["The percentage rises from 20% in 2020 to 75% in 2024 period.","The percentage is rise from 20% to 75% from 2020 to 2024.","The percentage will rose from 20% to 75% in 2024."],p:2,e:"The years are in the past, so use the past simple: rose."},
+{t:"Practice",q:"Which sentence is a BAD main idea sentence?",c:"I love this chart because it has beautiful colors.",w:["The table compares transport use in two cities.","The bar chart shows how students like to study.","The pie chart presents the sources of news in 2024."],p:3,e:"A main idea sentence says what the figure shows. It does not give a personal opinion."},
+{t:"Theory",q:"Why do we avoid repeating all the numbers in a conclusion?",c:"Because it should only summarize the main trend",w:["Because numbers are never allowed in writing","Because the reader does not need any information","Because the figure does not contain any numbers"],p:0,e:"The numbers are already in the body. The conclusion gives the big picture."},
+{t:"Practice",q:"Which sentence both compares two groups and gives data from Figure 2?",f:"f2",c:"Apps (38%) are more popular than books (20%).",w:["Apps are the most popular way to study.","The bar chart shows how students study English.","Overall, digital ways are more popular than traditional ways."],p:2,e:"It compares (more popular than) and gives numbers (38% and 20%)."},
+{t:"Practice",q:"In Figure 1, what is the overall pattern in City B?",f:"f1",c:"Buses are the most popular, walking the least.",w:["Cars are the most popular, and walking is the least.","Bikes are the most popular, and buses are the least.","Walking is the most popular, and bikes are the least."],p:0,e:"City B: bus 35% (highest) and walking 15% (lowest)."},
+{t:"Theory",q:"Which order is best for a figure description?",c:"Main idea, trend, comparisons and data, then conclusion",w:["Conclusion first, then the main idea, and then the data","Specific data first, then the conclusion, and then the trend","Comparisons first, then the conclusion, and then the main idea"],p:3,e:"Start with the main idea, give the trend, support with comparisons and data, and finish with a conclusion."}
+];
+</script>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const L="ABCD";
+
+/* ---------- Figures ---------- */
+const COL=["#6cb6ff","#f2c36b","#7ee0a6","#e48fd0"];
+function tbl(head,rows,cls){return `<div class="tw"><table><thead><tr>${head.map((h,i)=>`<th class="${i?"n":""}">${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td class="${i?"n":""}">${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`}
+function barSVG(rows){
+ const W=480,H=280,l=52,r=12,t=22,b=48,pw=W-l-r,ph=H-t-b,max=40,step=pw/rows.length,bw=62;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bar chart of favorite ways to study English">`;
+ for(let v=0;v<=max;v+=10){const y=t+ph-v/max*ph;s+=`<line class="ax" x1="${l}" x2="${W-r}" y1="${y}" y2="${y}"/><text class="mut" x="${l-8}" y="${y+4}" text-anchor="end">${v}</text>`}
+ s+=`<text class="mut" x="14" y="${t+ph/2}" transform="rotate(-90 14 ${t+ph/2})" text-anchor="middle">Students (%)</text>`;
+ rows.forEach((d,i)=>{const x=l+step*i+(step-bw)/2,h=d[1]/max*ph,y=t+ph-h;
+  s+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="4" fill="${COL[i]}"/><text x="${x+bw/2}" y="${y-6}" text-anchor="middle" font-weight="700">${d[1]}%</text><text x="${x+bw/2}" y="${t+ph+20}" text-anchor="middle">${d[0]}</text>`});
+ return s+`</svg>`}
+function lineSVG(rows){
+ const W=480,H=280,l=52,r=22,t=26,b=46,pw=W-l-r,ph=H-t-b,max=100,n=rows.length;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Line graph of online learning app use, 2020 to 2024">`;
+ for(let v=0;v<=max;v+=20){const y=t+ph-v/max*ph;s+=`<line class="ax" x1="${l}" x2="${W-r}" y1="${y}" y2="${y}"/><text class="mut" x="${l-8}" y="${y+4}" text-anchor="end">${v}</text>`}
+ s+=`<text class="mut" x="14" y="${t+ph/2}" transform="rotate(-90 14 ${t+ph/2})" text-anchor="middle">Students (%)</text>`;
+ const pts=rows.map((d,i)=>[l+i*pw/(n-1),t+ph-d[1]/max*ph]);
+ s+=`<polyline fill="none" stroke="#6cb6ff" stroke-width="3" stroke-linejoin="round" points="${pts.map(p=>p.join(",")).join(" ")}"/>`;
+ pts.forEach((p,i)=>{s+=`<circle cx="${p[0]}" cy="${p[1]}" r="5" fill="#6cb6ff"/><text x="${p[0]}" y="${p[1]-11}" text-anchor="middle" font-weight="700">${rows[i][1]}%</text><text x="${p[0]}" y="${t+ph+20}" text-anchor="middle">${rows[i][0]}</text>`});
+ return s+`</svg>`}
+function pieSVG(rows){
+ const W=470,H=250,cx=125,cy=125,R=104;let a=-Math.PI/2;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Pie chart of main news sources in 2024">`;
+ rows.forEach((d,i)=>{const ang=d[1]/100*2*Math.PI,a2=a+ang,x1=cx+R*Math.cos(a),y1=cy+R*Math.sin(a),x2=cx+R*Math.cos(a2),y2=cy+R*Math.sin(a2),m=a+ang/2;
+  s+=`<path d="M${cx} ${cy} L${x1.toFixed(2)} ${y1.toFixed(2)} A${R} ${R} 0 ${ang>Math.PI?1:0} 1 ${x2.toFixed(2)} ${y2.toFixed(2)} Z" fill="${COL[i]}" stroke="#161b24" stroke-width="2"/>`;
+  s+=`<text x="${(cx+R*.64*Math.cos(m)).toFixed(1)}" y="${(cy+R*.64*Math.sin(m)+4).toFixed(1)}" text-anchor="middle" font-weight="700" style="fill:#0e1117">${d[1]}%</text>`;
+  s+=`<rect x="262" y="${62+i*34}" width="16" height="16" rx="3" fill="${COL[i]}"/><text x="288" y="${75+i*34}">${d[0]}</text>`;a=a2});
+ return s+`</svg>`}
+const CAP={ex:"Example Table · Average screen time by age group, 2024",f1:"Figure 1 · How people travel to work (%)",f2:"Figure 2 · Favorite ways to study English (% of 200 students)",f3:"Figure 3 · University students using online learning apps (%)",f4:"Figure 4 · Main source of news, 2024 (%)"};
+function renderFig(id){
+ const d=FIGDATA[id].rows;let body="";
+ if(id==="ex")body=tbl(["Age group","Average screen time (hours/day)"],d);
+ if(id==="f1")body=tbl(["Transport","City A (%)","City B (%)"],d);
+ if(id==="f2")body=barSVG(d);
+ if(id==="f3")body=lineSVG(d);
+ if(id==="f4")body=pieSVG(d);
+ return `<div class="fig"><div class="cap">${CAP[id]}</div>${body}</div>`}
+
+/* ---------- Quiz engine ---------- */
+function mk(q){const o=q.w.slice();o.splice(q.p,0,q.c);return o}
+function renderQuiz(host,list,mode,title){
+ host.innerHTML="";
+ const learn=mode==="learn";let done=0,right=0;
+ const head=document.createElement("div");head.className=learn?"qhead":"fstat";
+ const stat=document.createElement("span");stat.className="score";
+ const reset=document.createElement("button");reset.className="btn";reset.textContent="Retry";
+ reset.onclick=()=>renderQuiz(host,list,mode,title);
+ if(learn){head.innerHTML=`<h3>${title}</h3>`;head.append(stat,reset);host.append(head)}
+ else{head.append(stat,document.createElement("span"));}
+ const box=document.createElement("div");host.append(box);
+ if(!learn)host.append(head);
+ const res=document.createElement("div");
+ const els=[];
+ const upd=()=>{ if(learn)stat.textContent=`Score: ${right}/${list.length}`; else{stat.textContent=`Answered ${done}/${list.length}`;head.lastChild.textContent=`Correct: ${right}`}};
+ list.forEach((q,n)=>{
+  const opts=mk(q),el=document.createElement("div");el.className="q";
+  el.innerHTML=`<div class="qh"><span class="qn">Q${n+1}</span><span class="qk">${q.t}</span></div><p class="qt">${q.q}</p>${q.f?`<div class="qfig">${renderFig(q.f)}</div>`:""}<div class="opts">${opts.map((x,i)=>`<button class="opt" data-i="${i}"><b>${L[i]}</b><span>${x}</span></button>`).join("")}</div><div class="fb" aria-live="polite"></div>`;
+  const btns=[...el.querySelectorAll(".opt")],fb=$(".fb",el);
+  btns.forEach(b=>b.onclick=()=>{
+   if(el.dataset.done)return;el.dataset.done=1;done++;
+   const i=+b.dataset.i,ok=i===q.p;if(ok)right++;
+   btns.forEach(x=>x.classList.add("locked"));
+   if(learn){btns[q.p].classList.add("correct");if(!ok)b.classList.add("wrong");
+    fb.className="fb "+(ok?"ok":"no");fb.innerHTML=`${ok?"✓ Correct.":"✗ Not quite."} <span>${q.e}</span>`}
+   else{b.classList.add(ok?"right":"wrong");fb.className="fb "+(ok?"ok":"no");fb.textContent=ok?"✓ Correct":"✗ Wrong"}
+   upd();
+   if(done===list.length&&!learn)finish();
+  });
+  el._reveal=()=>{btns[q.p].classList.add("key");fb.innerHTML=`${fb.textContent} <span>· Answer ${L[q.p]}. ${q.e}</span>`};
+  box.append(el);els.push(el);
+ });
+ const finish=()=>{
+  const pc=Math.round(right/list.length*100);
+  res.className="result";res.innerHTML=`<div class="big">${right} / ${list.length}</div><div>${pc}% correct</div><div class="row"><button class="btn primary" id="key">Show answer key</button><button class="btn" id="again">Try again</button></div>`;
+  host.append(res);res.scrollIntoView({behavior:"smooth",block:"center"});
+  $("#key",res).onclick=function(){els.forEach(e=>e._reveal());this.disabled=true;this.textContent="Answer key shown"};
+  $("#again",res).onclick=()=>{renderQuiz(host,list,mode,title);host.scrollIntoView({behavior:"smooth"})};
+ };
+ upd();
+}
+
+/* ---------- Page ---------- */
+const NAV=[["intro","Start"],["s1","1 Main idea"],["s2","2 Trends"],["s3","3 Comparisons"],["s4","4 Data"],["s5","5 Conclusion"],["summary","Summary"],["final","Final practice"]];
+$("#nav").innerHTML=NAV.map(n=>`<a href="#${n[0]}" data-id="${n[0]}">${n[1]}</a>`).join("");
+
+let html=`<div class="hero" id="intro"><span class="badge" style="--ac:var(--c1)">Study companion · A1–B1</span>
+<h1>Describing Figures</h1>
+<p>Learn 5 key strategies for describing a table or chart. Each part has a short explanation, an example, four practice figures, and a 5-question quiz. At the end: a summary and a 30-question final practice.</p>
+<ol class="tips"><li><b>Main idea</b>: what is the figure about?</li><li><b>Overall trend</b>: what is the big picture?</li><li><b>Comparisons</b>: what is higher, lower, or the same?</li><li><b>Specific data</b>: which exact numbers support your ideas?</li><li><b>Conclusion</b>: what is the final message?</li></ol></div>`;
+
+STRATS.forEach((s,i)=>{
+ const col=`var(--c${i+1})`;
+ html+=`<section id="${s.id}" style="--ac:${col}"><span class="badge">Strategy ${i+1} of 5</span><h2>${s.title}</h2>
+<p>${s.what}</p>
+<div class="formula"><small>Pattern</small>${s.formula}</div>
+<h3>Useful words</h3><ul class="chips">${s.phrases.map(p=>`<li>${p}</li>`).join("")}</ul>
+<h3>Remember</h3><ul class="tips">${s.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+<h3>Example · screen-time table</h3>
+<div class="example">${renderFig("ex")}<blockquote>${s.ex}</blockquote><p class="why">${s.why}</p></div>
+<h3>Practice · the same strategy on 4 figures</h3>
+<div class="grid">${["f1","f2","f3","f4"].map(f=>`<figure class="card">${renderFig(f)}<div class="desc"><span class="tag">Strategy ${i+1}</span><blockquote>${DESC[i][f]}</blockquote></div></figure>`).join("")}</div>
+<div class="quiz" id="q${i+1}"></div></section>`;
+});
+
+const rows=[["1 Main idea","What is it about?","The … shows / compares …","No numbers, no opinion."],
+["2 Trend","What is the big picture?","In general, / Overall,","Highest, lowest, up, down."],
+["3 Comparison","What is higher or lower?","more … than / twice as … as","Check the math first."],
+["4 Data","Which numbers support it?","accounts for / reached / (45%)","Add units. Key numbers only."],
+["5 Conclusion","What is the final message?","In summary, / To sum up,","No new data, no opinion."]];
+const M=[["var(--c1)","The line graph shows the percentage of university students who used online learning apps from 2020 to 2024."],["var(--c2)","Overall, the use of apps increased every year, but the growth became slower."],["var(--c3)","The rise from 2020 to 2021 was bigger than any later rise."],["var(--c4)","The figure was 20% in 2020, jumped to 45% in 2021, and reached 75% in 2024."],["var(--c5)","In summary, online learning apps became much more popular among students over five years."]];
+html+=`<section id="summary" style="--ac:var(--c1)"><span class="badge">Summary</span><h2>The 5 Strategies at a Glance</h2>
+<div class="tw"><table class="sumtable"><thead><tr><th>Strategy</th><th>Question</th><th>Key words</th><th>Remember</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+<h3>A full paragraph (Figure 3)</h3>
+<div class="legend">${["Main idea","Trend","Comparison","Data","Conclusion"].map((n,i)=>`<span><i style="--c:var(--c${i+1})"></i>${n}</span>`).join("")}</div>
+<div class="model">${M.map(m=>`<span style="--c:${m[0]}">${m[1]}</span>`).join(" ")}</div>
+<p>Good order: main idea → trend → comparisons and data → conclusion. For a small data set, give many numbers. For a huge data set, give key features only.</p></section>
+<section id="final" style="--ac:var(--c1)"><span class="badge">Final practice</span><h2>30 Questions</h2>
+<p>You will see only <b>Correct</b> or <b>Wrong</b> after each answer. The answer key is available when you finish.</p>
+<div id="fquiz"></div></section>
+<footer>Based on the “Global Relations” slides · Describing Tables &amp; Charts</footer>`;
+$("#app").innerHTML=html;
+STRATS.forEach((s,i)=>renderQuiz($("#q"+(i+1)),QUIZ[i],"learn",`Quiz ${i+1}: ${s.title}`));
+renderQuiz($("#fquiz"),FINAL,"final","");
+
+/* nav highlight + progress */
+const links=[...document.querySelectorAll("#nav a")];
+const secs=NAV.map(n=>document.getElementById(n[0]));
+function onScroll(){
+ const y=window.scrollY+120;let cur=0;secs.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
+ links.forEach((a,i)=>a.classList.toggle("on",i===cur));
+ const nv=$("#nav"),a=links[cur];if(a)nv.scrollLeft=a.offsetLeft-nv.clientWidth/2+a.offsetWidth/2;
+ const h=document.documentElement.scrollHeight-innerHeight;$("#bar").style.width=(h>0?scrollY/h*100:0)+"%";
+}
+addEventListener("scroll",onScroll,{passive:true});onScroll();
+</script>
+</body>
+</html>
